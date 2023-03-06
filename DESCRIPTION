@@ -16,3 +16,5 @@ Suggests:
     boot
 RoxygenNote: 7.2.1
 License: MIT + file LICENSE
+URL: https://github.com/daob/poLCA.extras
+BugReports: https://github.com/daob/poLCA.extras/issues
