@@ -1,0 +1,18 @@
+Package: poLCA.extras
+Type: Package
+Title: Some additional functionality for poLCA models
+Version: 0.1.0
+Author: DL Oberski
+Maintainer: DL Oberski <d.l.oberski@uu.nl>
+Description: Includes some functionality for latent class models 
+    using the poLCA package. At the moment it only supplies
+    bivariate residuals and parametric bootstrap.
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Imports:
+    poLCA
+Suggests:
+    boot
+RoxygenNote: 7.2.1
+License: MIT + file LICENSE
