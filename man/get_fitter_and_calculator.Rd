@@ -2,11 +2,7 @@
 % Please edit documentation in R/bvr.R
 \name{get_fitter_and_calculator}
 \alias{get_fitter_and_calculator}
-\title{Some convenience function for parametric bootstrapping
-Given a formula, and other arguments to poLCA,
-output a  function : data → statistics:
-the output function fits poLCA to data as requested and
-returns the statistics of interest.}
+\title{Output a function that fits a poLCA model to data and calculates BVRs on it.}
 \usage{
 get_fitter_and_calculator(f, ...)
 }
@@ -19,9 +15,5 @@ get_fitter_and_calculator(f, ...)
 A function to be used as \verb{statistic=} by \code{boot()}
 }
 \description{
-Some convenience function for parametric bootstrapping
-Given a formula, and other arguments to poLCA,
-output a  function : data → statistics:
-the output function fits poLCA to data as requested and
-returns the statistics of interest.
+Output a function that fits a poLCA model to data and calculates BVRs on it.
 }

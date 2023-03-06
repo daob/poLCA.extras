@@ -46,16 +46,11 @@ bvr <- function(fit, tol = 1e-3, rescale_to_df = TRUE) {
 }
 
 
-#' Some convenience function for parametric bootstrapping
-#' Given a formula, and other arguments to poLCA,
-#' output a  function : data → statistics:
-#'  the output function fits poLCA to data as requested and
-#'  returns the statistics of interest.
+#' Output a function that fits a poLCA model to data and calculates BVRs on it.
 #' @param f A formula to be used as input by poLCA
 #' @param ... further arguments to poLCA, such as the number of classes `nclass`
 #' @returns A function to be used as `statistic=` by `boot()`
 #' @importFrom poLCA poLCA
-#' @export
 get_fitter_and_calculator <- function(f, ...) function(dat) {
   # Fit the model to the data:
   fit_boot <- poLCA(formula = f, data = dat, verbose = FALSE, ...)
@@ -68,7 +63,6 @@ get_fitter_and_calculator <- function(f, ...) function(dat) {
 #' @param fit_polca A poLCA model fit object
 #' @returns A function to be used as `ran.gen=` by `boot()`
 #' @importFrom poLCA poLCA.predcell
-#' @export
 get_generator <- function(fit_polca) {
   stopifnot(class(fit_polca) == "poLCA")
 
@@ -87,5 +81,39 @@ get_generator <- function(fit_polca) {
 
     df_samp
   }
+}
+
+#' Given a poLCA fit object, output a function that generates data from it.
+#' @param formula A formula to be used as input by poLCA
+#' @param fit_polca A poLCA model fit object.
+#' @param data Original data used to fit `fit_polca`.
+#' @param R The number of parametric bootstrap replicates.
+#' @param ... Further arguments to `poLCA()`, such as `nrep` and `nclass`
+#' @returns Bootstrapped p-values of the BVRs
+#' @importFrom boot boot
+#' @export
+bootstrap_bvr_pvals <- function(formula, fit_polca, data, R = 200, ...) {
+  stopifnot(class(fit_polca) == "poLCA")
+
+  # Sample BVRs:
+  bvr_est <- bvr(fit_polca)
+
+  # Function to be used as statstic:
+  fit_and_calculate_stats <- get_fitter_and_calculator(formula, ...)
+
+  # Function to generate data from the poLCA model:
+  generate_from_model <- get_generator(fit_polca)
+
+  # Use boot to generate parametric bootstrap samples:
+  boot_bvr <- boot::boot(data = data,
+                         statistic = fit_and_calculate_stats,
+                         ran.gen = generate_from_model,
+                         R = R, sim = "parametric")
+
+  pvals_boot <- bvr_est # a little trick to get nicer formatting
+  # Calculate p-values as proportion of bvr's below bootstrap distribution:
+  pvals_boot[] <- (bvr_est <= t(boot_bvr$t)) |> rowMeans()
+
+  pvals_boot
 }
 
