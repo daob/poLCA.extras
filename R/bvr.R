@@ -83,7 +83,7 @@ get_generator <- function(fit_polca) {
   }
 }
 
-#' Given a poLCA fit object, output a function that generates data from it.
+#' Bootstrap p-values of the bivariate residuals of an LCA model.
 #' @param formula A formula to be used as input by poLCA
 #' @param fit_polca A poLCA model fit object.
 #' @param data Original data used to fit `fit_polca`.

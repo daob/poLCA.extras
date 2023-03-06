@@ -2,7 +2,7 @@
 % Please edit documentation in R/bvr.R
 \name{bootstrap_bvr_pvals}
 \alias{bootstrap_bvr_pvals}
-\title{Given a poLCA fit object, output a function that generates data from it.}
+\title{Bootstrap p-values of the bivariate residuals of an LCA model.}
 \usage{
 bootstrap_bvr_pvals(formula, fit_polca, data, R = 200, ...)
 }
@@ -21,5 +21,5 @@ bootstrap_bvr_pvals(formula, fit_polca, data, R = 200, ...)
 Bootstrapped p-values of the BVRs
 }
 \description{
-Given a poLCA fit object, output a function that generates data from it.
+Bootstrap p-values of the bivariate residuals of an LCA model.
 }
